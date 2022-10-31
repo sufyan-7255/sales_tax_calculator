@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous" />
+    <title>Calculations Task Using Javascript and JQuery</title>
+</head>
+<style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+</style>
+
+<body>
+    <div class="col-md-4 offset-md-4">
+        <br />
+        <h3>Sales Tax Calculator</h3>
+        <br />
+        <label for="">Net Amount: </label>
+        <input type="text" name="" id="net_amount"    
+            class="form-control calculate input_number comma_format" />
+        <br />
+        <label for="">Sales Tax % : </label>
+        <input type="text" name="" id="sales_tax" 
+            class="form-control calculate input_number" />
+        <br />
+        <label for="">Deducted Amount: </label>
+        <input type="text" name="" readonly id="remaining_amount" class="form-control remaining_amount" />
+        <span class="text-primary">This field is cannot be edited by user</span><br />
+
+        <br />
+        <h4>Final Result:</h4>
+        <input type="text" name="" readonly id="final_result" class="form-control final_result" />
+        <span class="text-primary">This field is cannot be edited by user</span>
+        <br /><br />
+
+        <!-- <button id="calculate" class="btn btn-success">Calculate</button> -->
+    </div>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script> -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.input_number').keypress(function(e) {
+            var regex = new RegExp("^[0-9,.]+$");
+            var str = String.fromCharCode(!e.charCode ? e.which : e.charCode);
+            if (regex.test(str)) {
+                return true;
+            } else {
+                e.preventDefault();
+                // alert('Only Numbers are allowed in this field');
+
+                return false;
+            }
+        });
+
+            $(".calculate").change(function () {
+
+            var format =  new Intl.NumberFormat('en-US', {
+                minimumFractionDigits: 2,
+            });
+
+            var net_amount = $("#net_amount").val().replace(/,/g, '');
+            $("#net_amount").val(format.format(net_amount));
+                
+            var sales_tax = $("#sales_tax").val().replace(/,/g, '');
+            $("#sales_tax").val(format.format(sales_tax));
+
+            
+                
+                // var sales_tax = $("#sales_tax").val();
+
+                var sales_tax_calc = ((net_amount * sales_tax) / 100);
+                var remaining_amount = (document.getElementById(
+                    "remaining_amount"
+                ).innerHTML = sales_tax_calc);
+                $(".remaining_amount").val(format.format(remaining_amount));
+
+                var final_result = (document.getElementById(
+                    "final_result"
+                ).innerHTML = net_amount - remaining_amount);
+                $(".final_result").val(format.format(final_result));
+            });
+        });
+    </script>
+
+</body>
+
+</html>
